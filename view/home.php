@@ -1,3 +1,10 @@
+<?php
+
+include "../model/user_model.php";
+include "../controller/user_controller.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,17 +17,17 @@
     <link rel="stylesheet" href="\OOP-PHP\assets\css\style.css">
 </head>
 <style>
-
-
-    .admin{
-        display:flex;
-        gap:1rem;
+    .admin {
+        display: flex;
+        gap: 1rem;
     }
-     .name p{
-        font-weight:bold;
-        color:grey;
+
+    .name p {
+        font-weight: bold;
+        color: grey;
     }
 </style>
+
 <body>
     <!-- =============== Navigation ================ -->
     <div class="container">
@@ -29,7 +36,7 @@
                 <li>
                     <a href="#">
                         <span class="icon">
-                        <ion-icon name="book-outline"></ion-icon>
+                            <ion-icon name="book-outline"></ion-icon>
                         </span>
                         <span class="title">Happy-marionnette</span>
                     </a>
@@ -128,8 +135,12 @@
                         <img src="../assets/images/me.jpg" alt="">
                     </div>
                     <div class="name">
-                        <p><?php echo isset($_COOKIE['user_name']) ? $_COOKIE['user_name'] : ''; ?></p>
-                        <p><?php echo isset($_COOKIE['user_role']) ? $_COOKIE['user_role'] : ''; ?></p>
+                        <p>
+                            <?php echo isset($_COOKIE['user_name']) ? $_COOKIE['user_name'] : ''; ?>
+                        </p>
+                        <p>
+                            <?php echo isset($_COOKIE['user_role']) ? $_COOKIE['user_role'] : ''; ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -175,7 +186,7 @@
                     </div>
 
                     <div class="iconBx">
-                    <ion-icon name="people-outline"></ion-icon>
+                        <ion-icon name="people-outline"></ion-icon>
                     </div>
                 </div>
             </div>
@@ -193,7 +204,8 @@
                             <tr>
                                 <td>ID</td>
                                 <td>Profile</td>
-                                <td>Name</td>
+                                <td>FirstName</td>
+                                <td>LastName</td>
                                 <td>Email</td>
                                 <td>Gender</td>
                                 <td>Date</td>
@@ -202,21 +214,37 @@
                         </thead>
 
                         <tbody>
-                           <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><a href="edit_teachers.php?id=<?= $row['id']?>" style="color:black;font-size:20px;margin-right:20px"><ion-icon name="pencil-outline"></ion-icon></a><a href="delete_teachers.php?id=<?= $row['id']?>" style="color:red;font-size:20px;"><ion-icon name="close-circle-outline"></ion-icon></a></td>
-                           </tr>
+                            <?php
+                            $all = $user->Showuser();
+                            if ($all) {
+                                while ($row = mysqli_fetch_assoc($all)) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $row['id'] ?></td>
+                                        <td><img src="<?= $row['profile'] ?>" alt="" srcset="" style="max-width:45px;border-radius:50%;"></td>
+                                        <td><?= $row['first_name'] ?></td>
+                                        <td><?= $row['last_name'] ?></td>
+                                        <td><?= $row['email'] ?></td>
+                                        <td><?= $row['gender'] ?></td>
+                                        <td><?= $row['creation_date'] ?></td>
+                                        <td><a href="edit.php?id=<?= base64_encode($row['id'])?>"
+                                                style="color:black;font-size:20px;margin-right:20px"><ion-icon
+                                                    name="pencil-outline"></ion-icon></a><a
+                                                href="?id=<?= base64_encode($row['id']) ?>&delete"
+                                                style="color:red;font-size:20px;"><ion-icon
+                                                    name="close-circle-outline"></ion-icon></a></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+
                         </tbody>
                     </table>
                 </div>
 
                 <!-- ================= New Customers ================ -->
-                
+
             </div>
 
             <!-- ======================= Cards ================== -->

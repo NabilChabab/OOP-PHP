@@ -1,3 +1,10 @@
+<?php
+
+include "../controller/user_controller.php";
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,33 +59,46 @@
          <p class="text-muted">Complete the form below to add a new student</p>
       </div>
 
+      <?php
+      
+         if(isset($add)){
+            ?>
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+               <strong><?= $add ?></strong> You should check in on some of those fields below.
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+      <?php
+         }
+      
+      ?>
+
       <div class="container d-flex justify-content-center" style="margin-top:5%;">
          <form action="" method="post" enctype="multipart/form-data" style="width:50vw; min-width:300px;">
                 <div class="card">
                     <img src="../assets/images/avatar.jpg" alt="image" id="image">
                     <label for="input-file">Choose Image</label>
-                    <input type="file" accept="image/jpg , image/png , image/jpeg" id="input-file" name="image"required>
+                    <input type="file" accept="image/jpg , image/png , image/jpeg" id="input-file" name="image">
                 </div>
             <div class="row mb-3">
                <div class="col">
                   <label class="form-label">First Name:</label>
-                  <input type="text" class="form-control" name="first_name" placeholder="firstname" required>
+                  <input type="text" class="form-control" name="first_name" placeholder="firstname" >
                </div>
 
                <div class="col">
                   <label class="form-label">Last Name:</label>
-                  <input type="text" class="form-control" name="last_name" placeholder="lastname" required>
+                  <input type="text" class="form-control" name="last_name" placeholder="lastname" >
                </div>
             </div>
 
             <div class="mb-3">
                <label class="form-label">CIN:</label>
-               <input type="text" class="form-control" name="cin" placeholder="CIN" required>
+               <input type="text" class="form-control" name="cin" placeholder="CIN" >
             </div>
 
             <div class="mb-3">
                <label class="form-label">Email:</label>
-               <input type="email" class="form-control" name="email" placeholder="name@example.com" required>
+               <input type="email" class="form-control" name="email" placeholder="name@example.com" >
             </div>
 
             <div class="form-group mb-3">
@@ -93,7 +113,7 @@
 
             <div class="row ms-1 mt-4">
                <button type="submit" class="btn btn-success col-3 me-3" name="submit">Save</button>
-               <a href="index.php" class="btn btn-danger col-3">Cancel</a>
+               <a href="home.php" class="btn btn-danger col-3">Cancel</a>
             </div>
          </form>
       </div>

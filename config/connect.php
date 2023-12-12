@@ -15,21 +15,59 @@ class Database {
         $this->username = $_ENV['DB_USERNAME'];
         $this->password = $_ENV['DB_PASSWORD'];
         $this->db_name = $_ENV['DB_NAME'];
+        $this->connect();
     }
 
-    public function connect() {
-        $this->connect = new mysqli($this->host, $this->username, $this->password, $this->db_name);
+    private function connect() {
+        $this->connect = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
 
-        if ($this->connect->connect_error) {
-            die("Connection failed: " . $this->connect->connect_error);
+        if (!$this->connect) {
+            die("Connection failed: " . mysqli_connect_error());
         }
-        else{
-            echo "success";
-        }
+    }
 
+    public function getConnection() {
         return $this->connect;
     }
-}
 
-$database = new Database();
-$database->connect();
+    public function insert($query) {
+        $result = mysqli_query($this->connect, $query);
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function select($query) {
+        $result = mysqli_query($this->connect, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function update($query) {
+        $result = mysqli_query($this->connect, $query);
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function delete($query) {
+        $result = mysqli_query($this->connect, $query);
+
+        if ($result) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+}
+?>
