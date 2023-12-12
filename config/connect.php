@@ -1,16 +1,16 @@
 <?php
+
 require '../vendor/autoload.php';
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
 
 class Database {
     private $host;
     private $username;
     private $password;
     private $db_name;
-    private $connect;
-
+    protected $connect;
     public function __construct() {
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
         $this->host = $_ENV['DB_SERVERNAME'];
         $this->username = $_ENV['DB_USERNAME'];
         $this->password = $_ENV['DB_PASSWORD'];
@@ -26,48 +26,32 @@ class Database {
         }
     }
 
-    public function getConnection() {
-        return $this->connect;
-    }
-
     public function insert($query) {
         $result = mysqli_query($this->connect, $query);
 
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
+        return $result ? $result : false;
     }
 
     public function select($query) {
         $result = mysqli_query($this->connect, $query);
-
-        if (mysqli_num_rows($result) > 0) {
-            return $result;
-        } else {
-            return false;
+    
+        if ($result === false) {
+            die('Error in SQL query: ' . mysqli_error($this->connect));
         }
+    
+        return $result;
     }
 
     public function update($query) {
         $result = mysqli_query($this->connect, $query);
 
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
+        return $result ? $result : false;
     }
 
     public function delete($query) {
         $result = mysqli_query($this->connect, $query);
 
-        if ($result) {
-            return $result;
-        } else {
-            return false;
-        }
+        return $result ? $result : false;
     }
 }
 ?>

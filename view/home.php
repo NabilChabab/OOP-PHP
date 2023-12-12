@@ -15,6 +15,7 @@ include "../controller/user_controller.php";
     <title>Admin Dashboard</title>
     <!-- ======= Styles ====== -->
     <link rel="stylesheet" href="\OOP-PHP\assets\css\style.css">
+
 </head>
 <style>
     .admin {
@@ -31,7 +32,7 @@ include "../controller/user_controller.php";
 <body>
     <!-- =============== Navigation ================ -->
     <div class="container">
-        <div class="navigation active">
+        <div class="navigation active" style="">
             <ul>
                 <li>
                     <a href="#">
@@ -106,7 +107,7 @@ include "../controller/user_controller.php";
                 </li>
 
                 <li>
-                    <a href="../../controller/logout.php">
+                    <a href="logout.php">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -146,56 +147,38 @@ include "../controller/user_controller.php";
             </div>
 
             <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers">1,504</div>
-                        <div class="cardName">Daily Views</div>
-                    </div>
+                <?php
+                $all = $user->Showuserlimit();
+                if ($all) {
+                    while ($rows = mysqli_fetch_assoc($all)) {
+                        ?>
+                        <div class="card">
+                            <div>
+                                <div class="numbers" style="font-size:25px;">
+                                    <?= $rows['first_name'] ?>
+                                </div>
+                                <div class="cardName">
+                                    <?= $rows['email'] ?>
+                                </div>
+                            </div>
 
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-                </div>
+                            <div class="iconBx">
+                                <img src="<?= $rows['profile'] ?>" alt="" srcset="" style="max-width:50px;border-radius:50%;">
+                            </div>
 
-                <div class="card">
-                    <div>
-                        <div class="numbers">800</div>
-                        <div class="cardName">Total Students</div>
-                    </div>
+                        </div>
 
-                    <div class="iconBx">
-                        <ion-icon name="people-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="chatbubbles-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">42</div>
-                        <div class="cardName">Total Teachers</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="people-outline"></ion-icon>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
 
             <!-- ================ Order Details List ================= -->
             <div class="details">
                 <div class="recentOrders">
                     <div class="cardHeader">
-                        <h2>Recent Orders</h2>
+                        <h2>All Users</h2>
                         <a href="add.php" class="btn">Add New</a>
                     </div>
 
@@ -220,19 +203,34 @@ include "../controller/user_controller.php";
                                 while ($row = mysqli_fetch_assoc($all)) {
                                     ?>
                                     <tr>
-                                        <td><?= $row['id'] ?></td>
-                                        <td><img src="<?= $row['profile'] ?>" alt="" srcset="" style="max-width:45px;border-radius:50%;"></td>
-                                        <td><?= $row['first_name'] ?></td>
-                                        <td><?= $row['last_name'] ?></td>
-                                        <td><?= $row['email'] ?></td>
-                                        <td><?= $row['gender'] ?></td>
-                                        <td><?= $row['creation_date'] ?></td>
-                                        <td><a href="edit.php?id=<?= base64_encode($row['id'])?>"
-                                                style="color:black;font-size:20px;margin-right:20px"><ion-icon
-                                                    name="pencil-outline"></ion-icon></a><a
-                                                href="?id=<?= base64_encode($row['id']) ?>&delete"
-                                                style="color:red;font-size:20px;"><ion-icon
-                                                    name="close-circle-outline"></ion-icon></a></td>
+                                        <td>
+                                            <?= $row['id'] ?>
+                                        </td>
+                                        <td><img src="<?= $row['profile'] ?>" alt="" srcset=""
+                                                style="max-width:45px;border-radius:50%;"></td>
+                                        <td>
+                                            <?= $row['first_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['last_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['email'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['gender'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['creation_date'] ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if (!isset($_SESSION['user_role'])) {
+                                                echo '<a href="edit.php?id=' . base64_encode($row['id']) . '" style="color:black;font-size:20px;margin-right:20px"><ion-icon name="pencil-outline"></ion-icon></a>';
+                                                echo '<a href="?id=' . base64_encode($row['id']) . '&delete" style="color:red;font-size:20px;"><ion-icon name="close-circle-outline"></ion-icon></a>';
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
