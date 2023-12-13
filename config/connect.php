@@ -8,6 +8,7 @@ class Database {
     private $password;
     private $db_name;
     protected $connect;
+
     public function __construct() {
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
@@ -34,12 +35,8 @@ class Database {
 
     public function select($query) {
         $result = mysqli_query($this->connect, $query);
-    
-        if ($result === false) {
-            die('Error in SQL query: ' . mysqli_error($this->connect));
-        }
-    
-        return $result;
+
+        return mysqli_num_rows($result) > 0 ? $result : false;
     }
 
     public function update($query) {

@@ -1,7 +1,7 @@
 <?php
 
-include "../model/user_model.php";
-include "../controller/user_controller.php";
+require_once "../model/user.php";
+require_once "../controller/user_controller.php";
 
 ?>
 
@@ -53,60 +53,6 @@ include "../controller/user_controller.php";
                 </li>
 
                 <li>
-                    <a href="students/students.php">
-                        <span class="icon">
-                            <ion-icon name="people-outline"></ion-icon>
-                        </span>
-                        <span class="title">Students</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="teachers/teachers.php">
-                        <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
-                        </span>
-                        <span class="title">Teachers</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="booking/booking.php">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
-                        <span class="title">Booking</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="roles/roles.php">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Roles</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="notifications/notifications.php">
-                        <span class="icon">
-                            <ion-icon name="notifications-outline"></ion-icon>
-                        </span>
-                        <span class="title">Notifications</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="settings/settings.php">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                        <span class="title">Settings</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="logout.php">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
@@ -126,21 +72,25 @@ include "../controller/user_controller.php";
 
                 <div class="search">
                     <label>
-                        <input type="text" placeholder="Search here">
+                        <input type="text" placeholder="Search here" id="searchTerm">
                         <ion-icon name="search-outline"></ion-icon>
                     </label>
                 </div>
 
                 <div class="admin">
                     <div class="user">
-                        <img src="../assets/images/me.jpg" alt="">
+                        <?php
+                        if (isset($_SESSION['user_image'])) {
+                            echo '<img src="' . $_SESSION['user_image'] . '" alt="User Image">';
+                        }
+                        ?>
                     </div>
                     <div class="name">
                         <p>
                             <?php echo isset($_COOKIE['user_name']) ? $_COOKIE['user_name'] : ''; ?>
                         </p>
                         <p>
-                            <?php echo isset($_COOKIE['user_role']) ? $_COOKIE['user_role'] : ''; ?>
+                            <?php echo isset($_COOKIE['user_email']) ? $_COOKIE['user_email'] : ''; ?>
                         </p>
                     </div>
                 </div>
@@ -148,7 +98,7 @@ include "../controller/user_controller.php";
 
             <div class="cardBox">
                 <?php
-                $all = $user->Showuserlimit();
+                $all = $user->showUserLimit();
                 if ($all) {
                     while ($rows = mysqli_fetch_assoc($all)) {
                         ?>
@@ -179,10 +129,14 @@ include "../controller/user_controller.php";
                 <div class="recentOrders">
                     <div class="cardHeader">
                         <h2>All Users</h2>
-                        <a href="add.php" class="btn">Add New</a>
+                        <?php
+                        if (!isset($_SESSION['user_role'])) {
+                            echo '<a href="add.php" class="btn">Add New</a>';
+                        }
+                        ?>
                     </div>
 
-                    <table>
+                    <table id="userTable">
                         <thead>
                             <tr>
                                 <td>ID</td>
@@ -192,13 +146,17 @@ include "../controller/user_controller.php";
                                 <td>Email</td>
                                 <td>Gender</td>
                                 <td>Date</td>
-                                <td>Action</td>
+                                <?php
+                                if (!isset($_SESSION['user_role'])) {
+                                    echo '<td>Action</td>';
+                                }
+                                ?>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody  id="userTableBody">
                             <?php
-                            $all = $user->Showuser();
+                            $all = $user->showUser();
                             if ($all) {
                                 while ($row = mysqli_fetch_assoc($all)) {
                                     ?>
@@ -251,6 +209,8 @@ include "../controller/user_controller.php";
 
     <!-- =========== Scripts =========  -->
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/filter.js"></script>
+    
 
     <!-- ====== ionicons ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

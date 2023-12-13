@@ -20,26 +20,10 @@ include "../controller/user_controller.php";
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-<body>
+<body class="bg-dark">
   <section class="background-radial-gradient overflow-hidden">
     <style>
-      .background-radial-gradient {
-        height: 100vh;
-        background-color: hsl(218, 41%, 15%);
-        background-image: radial-gradient(650px circle at 0% 0%,
-            hsl(218, 41%, 35%) 15%,
-            hsl(218, 41%, 30%) 35%,
-            hsl(218, 41%, 20%) 75%,
-            hsl(218, 41%, 19%) 80%,
-            transparent 100%),
-          radial-gradient(1250px circle at 100% 100%,
-            hsl(218, 41%, 45%) 15%,
-            hsl(218, 41%, 30%) 35%,
-            hsl(218, 41%, 20%) 75%,
-            hsl(218, 41%, 19%) 80%,
-            transparent 100%);
-      }
-
+      
       #radius-shape-1 {
         height: 220px;
         width: 220px;
@@ -164,8 +148,8 @@ include "../controller/user_controller.php";
     </div>
   </section>
 
-  <script src="../../assets/js/login.js"></script>
-  <script src="../../../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/login.js"></script>
+  <script src="../../bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

@@ -80,7 +80,7 @@ include "../controller/user_controller.php";
       <div class="container d-flex justify-content-center" style="margin-top:0%;">
          <form action="" method="post" enctype="multipart/form-data" style="width:50vw; min-width:300px;">
             <div class="card">
-               <img src="../assets/images/avatar.jpg" alt="image" id="image">
+               <img src="../assets/images/profilephoto.jfif" alt="image" id="image">
                <label for="input-file">Choose Image</label>
                <input type="file" accept="image/jpg , image/png , image/jpeg" id="input-file" name="image">
             </div>

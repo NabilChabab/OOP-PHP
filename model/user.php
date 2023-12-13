@@ -2,17 +2,16 @@
 
 
 require "../config/connect.php";
+
 session_start();
-class User extends Database
-{
+class User{
     private $db;
 
-    public function __construct(Database $db)
-    {
+    public function __construct(Database $db){
         $this->db = $db;
     }
 
-    public function Adduser($data, $file){
+    public function addUser($data, $file){
         $name = $data["first_name"];
         $lname = $data["last_name"];
         $email = $data["email"];
@@ -49,7 +48,7 @@ class User extends Database
         }
     }
 
-    public function Login($data){
+    public function login($data){
         $email = $data["email"];
         $password = $data["password"];
         $remember_me = isset($_POST['rememberMe']);
@@ -65,10 +64,12 @@ class User extends Database
                 $row = $result->fetch_assoc();
     
                 if (password_verify($password, $row['password'])) {
+                    $_SESSION['user_image'] = $row['profile'];
                     if ($row['role_id'] == 1) {
                         $_SESSION['admin_role'] = $row['role_id'];
                         if ($remember_me) {                    
-                            setcookie('user_email', $email, time() + (24 * 3600), '/'); 
+                            setcookie('user_email', $email, time() + (24 * 3600), '/');
+                            setcookie('user_name', $row['first_name'], time() + (24 * 3600), '/');
                         }
                         header('location:../view/home.php?welcomeadmin');
                         exit(); 
@@ -76,6 +77,7 @@ class User extends Database
                         $_SESSION['user_role'] = $row['role_id'];
                         if ($remember_me) {
                             setcookie('user_email', $email, time() + (24 * 3600), '/'); 
+                            setcookie('user_name', $row['first_name'], time() + (24 * 3600), '/');
                         }
                         header('location:../view/home.php?welcomeuser');
                         exit(); 
@@ -92,13 +94,13 @@ class User extends Database
     }
     
 
-    public function Showuser(){
+    public function showUser(){
         $query = "SELECT * FROM `user` ORDER BY `first_name` ASC";
         $result = $this->db->select($query);
         return $result;
     }
 
-    public function Showuserlimit(){
+    public function showUserLimit(){
         $query = "SELECT * FROM `user` ORDER BY `first_name` ASC LIMIT 4";
         $result = $this->db->select($query);
         return $result;
@@ -110,7 +112,7 @@ class User extends Database
         return $result;
     }
 
-    public function Updateuser($data, $file, $id){
+    public function updateUser($data, $file, $id){
         $name = $data["first_name"];
         $lname = $data["last_name"];
         $email = $data["email"];
@@ -139,7 +141,7 @@ class User extends Database
         }
     }
 
-    public function Deleteuser($id)
+    public function deleteUser($id)
     {
         $query = "DELETE FROM `user` WHERE id = $id";
         $result = $this->db->delete($query);
@@ -151,5 +153,7 @@ class User extends Database
             return $msg;
         }
     }
+
+    
 }
 ?>
