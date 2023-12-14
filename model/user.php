@@ -2,12 +2,13 @@
 
 
 require "../config/connect.php";
+require_once "base_model.php";
 
 session_start();
 class User{
     private $db;
 
-    public function __construct(Database $db){
+    public function __construct(BaseModel $db) {
         $this->db = $db;
     }
 

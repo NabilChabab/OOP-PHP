@@ -135,7 +135,7 @@ include "../controller/user_controller.php";
 
                   <div class="row ms-1 mt-4">
                      <button type="submit" class="btn btn-success col-3 me-3" name="submit">Save</button>
-                     <a href="index.php" class="btn btn-danger col-3">Cancel</a>
+                     <a href="home.php" class="btn btn-danger col-3">Cancel</a>
                   </div>
                </form>
 

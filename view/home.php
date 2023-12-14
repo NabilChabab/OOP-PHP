@@ -28,49 +28,6 @@ require_once "../controller/user_controller.php";
         color: grey;
     }
 
-    .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.user-details {
-    text-align: center;
-}
-
-.user-details p {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
 </style>
 
 <body>
@@ -179,12 +136,7 @@ require_once "../controller/user_controller.php";
                         }
                         ?>
                     </div>
-                    <div id="userModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <div id="modalDetails" class="user-details"></div>
-                        </div>
-                    </div>
+                    
                     <table id="userTable">
                         <thead>
                             <tr>
@@ -261,40 +213,7 @@ require_once "../controller/user_controller.php";
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/filter.js"></script>
 
-    <script>
-        const rows = document.querySelectorAll('#userTableBody tr');
-
-function openModal(userDetails) {
-    document.getElementById('modalDetails').innerHTML = userDetails;
-    document.getElementById('userModal').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('userModal').style.display = 'none';
-}
-
-rows.forEach(row => {
-    row.addEventListener('click', function () {
-        const userId = this.querySelector('td:first-child').innerText;
-        const firstName = this.querySelector('td:nth-child(3)').innerText;
-        const lastName = this.querySelector('td:nth-child(4)').innerText;
-        const email = this.querySelector('td:nth-child(5)').innerText;
-        const gender = this.querySelector('td:nth-child(6)').innerText;
-
-        const userDetails = `
-            <p>User ID: ${userId}</p>
-            <p>First Name: ${firstName}</p>
-            <p>Last Name: ${lastName}</p>
-            <p>Email: ${email}</p>
-            <p>Gender: ${gender}</p>
-            <!-- Add more details as needed -->
-        `;
-
-        openModal(userDetails);
-    });
-});
-
-    </script>
+   
 
 
 
