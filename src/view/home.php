@@ -1,7 +1,7 @@
 <?php
-
-require_once "../model/user.php";
 require_once "../controller/user_controller.php";
+
+
 
 ?>
 
@@ -82,7 +82,7 @@ require_once "../controller/user_controller.php";
                     <div class="user">
                         <?php
                         if (isset($_SESSION['user_image'])) {
-                            echo '<img src="' . $_SESSION['user_image'] . '" alt="User Image">';
+                            echo '<img src="../' . $_SESSION['user_image'] . '" alt="User Image">';
                         }
                         ?>
                     </div>
@@ -210,8 +210,8 @@ require_once "../controller/user_controller.php";
     </div>
 
     <!-- =========== Scripts =========  -->
-    <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/filter.js"></script>
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/filter.js"></script>
 
    
 

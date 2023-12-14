@@ -1,8 +1,10 @@
 <?php
 
-include_once "../model/user.php";
-$db = new Database();
-$user = new User($db);
+use App\model\User;
+
+require '../../vendor/autoload.php';
+
+$user = new User();
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,7 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     elseif (isset($_POST['login'])) {
         $login = $user->login($_POST);
+        if ($login === "User does not exist!" || $login === "Incorrect password!") {
+            $msg = $login;
+        } elseif ($login === "welcomeuser") {
+            header('location: ../view/home.php?welcomeuser');
+            exit();
+        } elseif ($login === "welcomeadmin") {
+            header('location: ../view/home.php?welcomeadmin');
+            exit();
+        }
     }
+    
 }
 
 if (isset($_GET['id']) && isset($_GET['delete'])) {

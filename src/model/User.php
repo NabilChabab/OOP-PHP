@@ -1,15 +1,20 @@
 <?php
 
+namespace App\model;
 
-require "../config/connect.php";
-require_once "base_model.php";
+require '../../vendor/autoload.php';
+// require_once "../config/connect.php";
+// require_once "BaseModel.php";
+use App\config\Database;
+use App\model\BaseModel;
+
+
 
 session_start();
-class User{
-    private $db;
+class User extends BaseModel{
 
-    public function __construct(BaseModel $db) {
-        $this->db = $db;
+    public function __construct() {
+        parent::__construct(Database::connect());
     }
 
     public function addUser($data, $file){
@@ -22,7 +27,7 @@ class User{
         $role = $data["role"];
         $file_name = $file['image']['name'];
         $file_temp = $file['image']['tmp_name'];
-        $upload_image = "../assets/images/" . $file_name;
+        $upload_image = "../../assets/images/" . $file_name;
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 
@@ -31,13 +36,13 @@ class User{
             return $msg;
         } else {
             $select = "SELECT * FROM `user` WHERE `email` = '$email'";
-            $result = $this->db->select($select);
+            $result = $this->select($select);
             if ($result !== false && mysqli_num_rows($result) > 0) {
                 $msg = "User Alraedy exist!";
             } else {
                 move_uploaded_file($file_temp, $upload_image);
                 $query = "INSERT INTO `user`(`first_name`,`last_name`, `email`, `password`, `gender`, `profile`, `cin` , `role_id`) VALUES ('$name','$lname','$email','$hashedPassword','$gender','$upload_image','$cin','$role')";
-                $result = $this->db->insert($query);
+                $result = $this->insert($query);
                 if ($result) {
                     $msg = 'User Added With Success';
                     return $msg;
@@ -59,7 +64,7 @@ class User{
             return $msg;
         } else {
             $login = "SELECT * FROM `user` WHERE `email` = '$email'";
-            $result = $this->db->select($login);
+            $result = $this->select($login);
     
             if ($result !== false && mysqli_num_rows($result) > 0) {
                 $row = $result->fetch_assoc();
@@ -72,16 +77,14 @@ class User{
                             setcookie('user_email', $email, time() + (24 * 3600), '/');
                             setcookie('user_name', $row['first_name'], time() + (24 * 3600), '/');
                         }
-                        header('location:../view/home.php?welcomeadmin');
-                        exit(); 
+                        return 'welcomeadmin';
                     } elseif ($row['role_id'] == 2) {
                         $_SESSION['user_role'] = $row['role_id'];
                         if ($remember_me) {
                             setcookie('user_email', $email, time() + (24 * 3600), '/'); 
                             setcookie('user_name', $row['first_name'], time() + (24 * 3600), '/');
                         }
-                        header('location:../view/home.php?welcomeuser');
-                        exit(); 
+                        return 'welcomeuser';
                     } 
                 } else {
                     $msg = "Incorrect password!";
@@ -97,19 +100,19 @@ class User{
 
     public function showUser(){
         $query = "SELECT * FROM `user` ORDER BY `first_name` ASC";
-        $result = $this->db->select($query);
+        $result = $this->select($query);
         return $result;
     }
 
     public function showUserLimit(){
         $query = "SELECT * FROM `user` ORDER BY `first_name` ASC LIMIT 4";
-        $result = $this->db->select($query);
+        $result = $this->select($query);
         return $result;
     }
 
     public function getUserbyId($id){
         $query = "SELECT * FROM `user` WHERE id = '$id'";
-        $result = $this->db->select($query);
+        $result = $this->select($query);
         return $result;
     }
 
@@ -130,7 +133,7 @@ class User{
         } else {
             move_uploaded_file($file_temp, $upload_image);
             $query = "UPDATE `user` SET `first_name` = '$name',`last_name` = '$lname', `email` = '$email', `gender` = '$gender', `cin` = '$cin' WHERE id = $id";
-            $result = $this->db->update($query);
+            $result = $this->update($query);
             if ($result) {
                 $msg = 'User Updated With Success';
                 header('location:../view/home.php');
@@ -142,10 +145,9 @@ class User{
         }
     }
 
-    public function deleteUser($id)
-    {
+    public function deleteUser($id){
         $query = "DELETE FROM `user` WHERE id = $id";
-        $result = $this->db->delete($query);
+        $result = $this->delete($query);
         if ($result) {
             $msg = "User Deleted Successfully!";
             return $msg;
