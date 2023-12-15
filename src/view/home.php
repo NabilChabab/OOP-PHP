@@ -82,7 +82,7 @@ require_once "../controller/user_controller.php";
                     <div class="user">
                         <?php
                         if (isset($_SESSION['user_image'])) {
-                            echo '<img src="../' . $_SESSION['user_image'] . '" alt="User Image">';
+                            echo '<img src="' . $_SESSION['user_image'] . '" alt="User Image">';
                         }
                         ?>
                     </div>

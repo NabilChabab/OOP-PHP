@@ -1,7 +1,6 @@
 <?php
 
 namespace App\model;
-// require_once "../config/Database.php";
 require '../../vendor/autoload.php';
 use App\config\Database;
 
